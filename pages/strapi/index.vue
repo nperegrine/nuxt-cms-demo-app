@@ -12,18 +12,9 @@ try {
 </script>
 
 <template>
-  <h1>Vue School Blog</h1>
-  <div>
+  <div class="p-5">
     <h4 v-for="article in articles" :key="article.id">
-      <img
-        :src="article?.attributes?.featured_image?.data?.attributes?.url"
-        width="300"
-        alt="vue-school"
-      />
-      <NuxtLink :href="`/strapi/${article.id}`">
-        <h2>{{ article.attributes.title }}</h2>
-      </NuxtLink>
-      <span>{{ article.attributes.createdAt }}</span>
+      <Article v-bind="{ article, cms: 'strapi' }"></Article>
     </h4>
   </div>
 </template>

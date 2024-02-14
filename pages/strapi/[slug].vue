@@ -15,11 +15,7 @@ try {
 </script>
 
 <template>
-  <img
-    :src="article?.attributes?.featured_image?.data?.attributes?.url"
-    width="300"
-    alt="vue-school"
-  />
-  <h1>{{ article?.attributes?.title }}</h1>
-  <p>{{ article?.attributes?.body }}</p>
+  <div class="flex justify-center p-5">
+    <ArticleLarge v-bind="{ article, cms: 'strapi' }"></ArticleLarge>
+  </div>
 </template>

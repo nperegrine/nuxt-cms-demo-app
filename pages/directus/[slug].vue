@@ -1,27 +1,22 @@
 <script setup>
 const { getItems } = useDirectusItems()
-const { getThumbnail: img } = useDirectusFiles()
 const slug = useRoute().params.slug
-const article = ref({})
+const filters = { slug }
 
-const fetchArticles = async () => {
-  try {
-    const filters = { slug }
-    const response = await getItems({
-      collection: 'Articles',
-      params: { filter: filters }
-    })
-    article.value = response[0]
-  } catch (e) {
-    console.log(e)
-  }
-}
-
-onMounted(() => fetchArticles())
+const {
+  data: article,
+  pending,
+  error,
+  refresh
+} = await useAsyncData('articles', () =>
+  getItems({ collection: 'Articles', params: { filter: filters } })
+)
 </script>
 
 <template>
-  <img :src="img(article.featured_image, { width: 300 })" alt="vue-school" />
-  <h1>{{ article.Title }}</h1>
-  <p>{{ article.Body }}</p>
+  <div class="flex justify-center p-5">
+    <ArticleLarge
+      v-bind="{ article: article[0], cms: 'directus' }"
+    ></ArticleLarge>
+  </div>
 </template>

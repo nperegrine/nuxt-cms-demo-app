@@ -1,6 +1,6 @@
 <script setup>
 useHead({
-  title: 'Vue School CMS Demo'
+  title: 'Nuxt CMS Demo'
 })
 </script>
 
