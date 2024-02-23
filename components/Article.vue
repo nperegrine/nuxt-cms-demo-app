@@ -16,7 +16,9 @@ const props = defineProps({
 const link = computed(() =>
   props.cms === 'directus'
     ? '/directus/' + props.article.slug
-    : '/strapi/' + props.article.id
+    : props.cms === 'strapi'
+    ? '/strapi/' + props.article.id
+    : '/statamic/' + props.article.id
 )
 </script>
 
@@ -30,7 +32,9 @@ const link = computed(() =>
         :src="
           cms === 'directus'
             ? img(article.featured_image)
-            : article?.attributes?.featured_image?.data?.attributes?.url
+            : cms === 'strapi'
+            ? article?.attributes?.featured_image?.data?.attributes?.url
+            : article.featured_image[0].permalink
         "
         alt="nuxt-cms-demo"
       />
@@ -40,11 +44,15 @@ const link = computed(() =>
         <h5
           class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white"
         >
-          {{ article.Title || article?.attributes?.title }}
+          {{ article.Title || article?.attributes?.title || article.title }}
         </h5>
       </NuxtLink>
       <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
-        {{ truncate(article.Title || article?.attributes?.body) }}
+        {{
+          truncate(
+            article.Title || article?.attributes?.body || article.content
+          )
+        }}
       </p>
       <NuxtLink
         :to="link"
